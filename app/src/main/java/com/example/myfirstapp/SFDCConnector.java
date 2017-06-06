@@ -6,10 +6,16 @@ package com.example.myfirstapp;
 
 import android.util.Log;
 
+import com.example.myfirstapp.Views.OrderDetails;
+import com.example.myfirstapp.Views.OrderLineDetails;
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
@@ -50,6 +56,7 @@ public class SFDCConnector {
 
 
     public static void getConnection() {
+        Log.d(TAG,"\n_______________ inside getConnection _______________");
 
         //HttpClient httpclient = HttpClientBuilder.create().build();
         HttpClient httpclient = new DefaultHttpClient();
@@ -241,8 +248,6 @@ public class SFDCConnector {
                 String response_string = EntityUtils.toString(response.getEntity());
                 response_string = response_string.replaceAll("\\\\","");
                 Log.d(TAG,"before:"+response_string);
-                //response_string = response_string.replaceAll("\"","");
-                //Log.d(TAG,"after:"+response_string);
                 response_string = response_string.substring(1, response_string.length()-1);
                 JSONObject jsonObject = new JSONObject(response_string);
                 Log.d(TAG,"isSuccessful:"+jsonObject.get("isSuccessful"));
@@ -281,23 +286,23 @@ public class SFDCConnector {
     }
 
     // Query Leads using REST HttpGet
-    public static String handleHotelCalls() {
+    public static JSONObject handleHotelCalls(String passKey) {
         Log.d(TAG,"\n_______________ inside handleHotelCalls _______________");
 
         String uri = loginInstanceUrl +  "/services/apexrest/getHotelDetails/";
         try {
             //create the JSON object containing the new lead details.
-            JSONObject lead = new JSONObject();
-            lead.put("passKey", "0123456789");
+            JSONObject jsonRequest = new JSONObject();
+            jsonRequest.put("passKey", passKey);
 
             //Construct the objects needed for the request
             HttpClient httpClient = new DefaultHttpClient();
-
             HttpPost httpPost = new HttpPost(uri);
             httpPost.addHeader(oauthHeader);
             httpPost.addHeader(prettyPrintHeader);
+
             // The message we are going to post
-            StringEntity body = new StringEntity(lead.toString(1));
+            StringEntity body = new StringEntity(jsonRequest.toString(1));
             body.setContentType("application/json");
             httpPost.setEntity(body);
 
@@ -310,16 +315,14 @@ public class SFDCConnector {
             if (statusCode == 200) {
                 String response_string = EntityUtils.toString(response.getEntity());
                 response_string = response_string.replaceAll("\\\\","");
-                Log.d(TAG,"before:"+response_string);
-                //response_string = response_string.replaceAll("\"","");
-                //Log.d(TAG,"after:"+response_string);
                 response_string = response_string.substring(1, response_string.length()-1);
                 JSONObject jsonObject = new JSONObject(response_string);
+
                 Log.d(TAG,"isSuccessful:"+jsonObject.get("isSuccessful"));
-                return "SUCCESS";
+                return jsonObject;
                 // Store the retrieved lead id to use when we update the lead.
             } else {
-                Log.d(TAG,"Insertion unsuccessful. Status code returned is " + statusCode);
+                return null;
             }
         } catch (JSONException e) {
             Log.d(TAG,"Issue creating JSON or processing results");
@@ -329,12 +332,113 @@ public class SFDCConnector {
         } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
-        return "Error";
+        return null;
+    }
+
+    // Query Leads using REST HttpGet
+    public static JSONObject handleOrderTableCalls(String hotelId) {
+        Log.d(TAG,"\n_______________ inside handleHotelCalls _______________");
+
+        String uri = loginInstanceUrl +  "/services/apexrest/getOrderTableDetails/";
+        Map<String,Object> params =  new HashMap<String,Object>();
+        params.put("hotelId",hotelId);
+        JSONObject jsonResponse = doPost(uri,params);
+        return jsonResponse;
+    }
+
+    // Query Leads using REST HttpGet
+    public static JSONObject handleMenuItemCalls(String hotelId,String menuItemID) {
+        Log.d(TAG,"\n_______________ inside handleMenuItemCalls _______________");
+        String uri = loginInstanceUrl +  "/services/apexrest/getMenuDetails/";
+        Map<String,Object> params =  new HashMap<String,Object>();
+        params.put("hotelId",hotelId);
+        params.put("menuItemID",menuItemID);
+        JSONObject jsonResponse = doPost(uri,params);
+        return jsonResponse;
     }
 
 
 
 
+    // Query Leads using REST HttpGet
+    public static JSONObject handleOrderCalls(String tableId, String mode, OrderDetails orderDetails, List<OrderLineDetails> orderLineDetails) {
+        Log.d(TAG,"\n_______________ inside handleOrderCalls _______________");
+
+        String uri = loginInstanceUrl +  "/services/apexrest/getOrderDetails/";
+        Map<String,Object> params =  new HashMap<String,Object>();
+        params.put("tableId",tableId);
+        params.put("mode",mode);
+        Gson gson = new Gson();
+        params.put("orderDetails",gson.toJson(orderDetails));
+        params.put("orderLineDetails",gson.toJson(orderLineDetails));
+        JSONObject jsonResponse = doPost(uri,params);
+        Log.d(TAG,String.valueOf(jsonResponse));
+        return jsonResponse;
+    }
+
+    // Query Leads using REST HttpGet
+    public static JSONObject handleOrderLineItemsCalls(String mode,String orderId,String menuItemId,String orderLineItemId) {
+        Log.d(TAG,"\n_______________ inside handleOrderLineItemsCalls _______________");
+
+        String uri = loginInstanceUrl +  "/services/apexrest/getOrderLineDetails/";
+        Map<String,Object> params =  new HashMap<String,Object>();
+        params.put("orderLineItemId",orderLineItemId);
+        params.put("mode",mode);
+        params.put("orderId",orderId);
+        params.put("menuItemId",menuItemId);
+        JSONObject jsonResponse = doPost(uri,params);
+        Log.d(TAG,jsonResponse.toString());
+        return jsonResponse;
+    }
 
 
+    public static JSONObject doPost(String uri, Map<String, Object> params) {
+        try {
+            //create the JSON object containing the new lead details.
+            JSONObject jsonRequest = new JSONObject();
+            for(String key:params.keySet()){
+                jsonRequest.put(key, params.get(key));
+            }
+
+            //Construct the objects needed for the request
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(uri);
+            httpPost.addHeader(oauthHeader);
+            httpPost.addHeader(prettyPrintHeader);
+
+            // The message we are going to post
+            StringEntity body = new StringEntity(jsonRequest.toString(1));
+            body.setContentType("application/json");
+            httpPost.setEntity(body);
+
+            //Make the request
+            HttpResponse response = httpClient.execute(httpPost);
+
+            //Process the results
+            int statusCode = response.getStatusLine().getStatusCode();
+            Log.d(TAG,statusCode+"");
+            if (statusCode == 200) {
+                String response_string = EntityUtils.toString(response.getEntity());
+                response_string = response_string.replaceAll("\\\\","");
+                response_string = response_string.substring(1, response_string.length()-1);
+                JSONObject jsonObject = new JSONObject(response_string);
+
+                Log.d(TAG,"isSuccessful:"+jsonObject.get("isSuccessful"));
+                return jsonObject;
+                // Store the retrieved lead id to use when we update the lead.
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            Log.d(TAG,"Issue creating JSON or processing results");
+            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+        return null;
+
+
+    }
 }

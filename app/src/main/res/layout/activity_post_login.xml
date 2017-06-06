@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_post_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.myfirstapp.Views.PostLogin">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/adminbtn"
+            android:id="@+id/welcomeTxt" />
+
+        <Button
+            android:text="Admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/adminbtn"
+            android:layout_alignBaseline="@+id/waiterbtn"
+            android:layout_alignBottom="@+id/waiterbtn"
+            android:layout_alignLeft="@+id/cashierbtn"
+            android:layout_alignStart="@+id/cashierbtn" />
+
+        <Button
+            android:text="Kitchen Staff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/deliverybtn"
+            android:layout_marginTop="28dp"
+            android:layout_below="@+id/cashierbtn"
+            android:layout_alignLeft="@+id/cashierbtn"
+            android:layout_alignStart="@+id/cashierbtn" />
+
+        <Button
+            android:text="Cashier/Manager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cashierbtn"
+            android:layout_below="@+id/waiterbtn"
+            android:layout_toRightOf="@+id/welcomeTxt"
+            android:layout_toEndOf="@+id/welcomeTxt"
+            android:layout_marginTop="46dp" />
+
+        <Button
+            android:text="Waiter   "
+            android:layout_width="352dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/waiterbtn"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/welcomeTxt"
+            android:layout_toRightOf="@+id/welcomeTxt"
+            android:layout_toEndOf="@+id/welcomeTxt"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp" />
+    </LinearLayout>
+
+</RelativeLayout>

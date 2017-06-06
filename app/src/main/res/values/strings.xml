@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My First App</string>
+    <string name="VACANT">Vacant</string>
+    <string name="RESERVED">Reserved</string>
+    <string name="OCCUPIED">Occupied</string>
+    <string name="READ">READ</string>
+    <string name="CREATE">CREATE</string>
+    <string name="DELETE">DELETE</string>
+    <string name="UPDATE">UPDATE</string>
+    <string name="NORECORDFOUND">No Record Found</string>
 </resources>
