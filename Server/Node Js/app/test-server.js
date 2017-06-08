@@ -162,7 +162,7 @@ app.post('/getTableDetails', function(req, res, next){
       }
       else{
         console.log("connection Established:"+hotelId);
-        var cursor = db.collection('Order_Table').find({"Hotel_Id":hotelId});
+        var cursor = db.collection('OrderTable').find({"HotelID":hotelId});
 		cursor.forEach(function(doc, err){
           if(err){
             console.log("Code fata in collection");
@@ -182,7 +182,7 @@ app.post('/getTableDetails', function(req, res, next){
 		  }		  
 		  if(resultArray){
 				nodeJSServerResponse.isSuccess = true;
-				nodeJSServerResponse.resultArray["Order_Table"]= resultArray;
+				nodeJSServerResponse.resultArray["OrderTable"]= resultArray;
 		  }		  
 		  
 		  console.log(nodeJSServerResponse);
@@ -226,7 +226,7 @@ app.post('/getMenuItemDetails', function(req, res, next){
       }
       else{
         console.log("connection Established:"+hotelId);
-        var cursor = db.collection('Menu_Item').find({"Hotel_Id":hotelId});
+        var cursor = db.collection('MenuItem').find({"HotelID":hotelId});
 		cursor.forEach(function(doc, err){
           if(err){
             console.log("Code fata in collection");
@@ -246,7 +246,7 @@ app.post('/getMenuItemDetails', function(req, res, next){
 		  }		  
 		  if(resultArray){
 				nodeJSServerResponse.isSuccess = true;
-				nodeJSServerResponse.resultArray["Menu_Item"]= resultArray;
+				nodeJSServerResponse.resultArray["MenuItem"]= resultArray;
 		  }		  
 		  
 		  console.log(nodeJSServerResponse);
@@ -289,7 +289,7 @@ app.post('/getMenuItemDescription', function(req, res, next){
       }
       else{
         console.log("connection Established:"+menuItemId);
-        var cursor = db.collection('Menu_Item').find({"_id":new ObjectId(menuItemId)});
+        var cursor = db.collection('MenuItem').find({"_id":new ObjectId(menuItemId)});
 		cursor.forEach(function(doc, err){
           if(err){
             console.log("Code fata in collection");
@@ -309,7 +309,7 @@ app.post('/getMenuItemDescription', function(req, res, next){
 		  }		  
 		  if(resultArray){
 				nodeJSServerResponse.isSuccess = true;
-				nodeJSServerResponse.resultArray["Menu_Item"]= resultArray;
+				nodeJSServerResponse.resultArray["MenuItem"]= resultArray;
 		  }		  
 		  
 		  console.log(nodeJSServerResponse);
@@ -335,8 +335,6 @@ app.post('/getOrderDetails', function(req, res, next){
 		"errorList":{},
 		"resultArray":{}
 	}; 
-
-	
 	
 	var body = req.body;
 	var tableId = JSON.parse(body.tableId);
@@ -357,7 +355,7 @@ app.post('/getOrderDetails', function(req, res, next){
       }
       else{
         console.log("connection Established:"+tableId);
-        var cursor = db.collection('Order').find({"Table_Id":tableId,"Order_Status":"In Progress"});
+        var cursor = db.collection('Order').find({"TableID":tableId,"OrderStatus":"In Progress"});
 		cursor.forEach(function(doc, err){
           if(err){
             console.log("Code fata in collection");
@@ -377,40 +375,6 @@ app.post('/getOrderDetails', function(req, res, next){
 				nodeJSServerResponse.isSuccess = true;
 				nodeJSServerResponse.resultArray["Order"]= resultArray;
 		  }		  
-		  
-		console.log("Now querying 2nd function");
-		
-		if(orderId){
-			
-		console.log("Order id is valid"+orderId);
-   			  var resultArrayChild = [];
-				var cursor = db.collection('Order_Line_Item').find();
-				cursor.forEach(function(doc, err){
-					console.log("inside for each");
-					if(err){
-						console.log("Code fata in collection");
-						errorList.push(err);
-					  }
-					  else{
-						 resultArrayChild.push(doc); 
-							console.log("Pushing the doc");
-					  }
-				}, function(){
-					if(resultArrayChild){
-						console.log("resultArrayChild is valid"+JSON.stringify(resultArrayChild));
-						nodeJSServerResponse.resultArray["Order_Line_Item"] = resultArrayChild;
-					}
-				});
-				
-			}		
-	
-			
-			
-			
-			
-			
-			
-			
           db.close();
           console.log('Connection Ended.');
           //checking for errors
@@ -423,6 +387,64 @@ app.post('/getOrderDetails', function(req, res, next){
    
  //END function to getOrderDetails
    
+ //START function to getOrderLineDetails
+   
+app.post('/getOrderLineDetails', function(req, res, next){
+	console.log("Inside getOrderLineDetails method");
+
+	var nodeJSServerResponse = {
+		"isSuccess":"false",
+		"errorList":{},
+		"resultArray":{}
+	}; 
+	
+	var body = req.body;
+	var orderId = JSON.parse(body.orderId);
+	var mode = JSON.parse(body.mode);
+	
+	var MongoClient = mongodb.MongoClient;
+     
+     var url = 'mongodb://localhost:27017/testHotel';
+     //console.log(req.params);
+
+     MongoClient.connect(url, function(err, db){
+		var errorList = [];
+		var resultArray = [];
+
+	 if(err){
+        console.log("Nahi mila users db");
+      }
+      else{
+        console.log("connection Established:"+tableId);
+        var cursor = db.collection('OrderLineItem').find({"OrderID":orderId});
+		cursor.forEach(function(doc, err){
+          if(err){
+            console.log("Code fata in collection");
+			errorList.push(err);
+          }
+          else{
+			resultArray.push(doc);
+          }
+        }, function(){
+
+		  if(errorList){
+			nodeJSServerResponse.errorList["Errors"]=errorList;
+		  }		  
+		  if(resultArray){
+				nodeJSServerResponse.isSuccess = true;
+				nodeJSServerResponse.resultArray["OrderLineItems"]= resultArray;
+		  }		  
+          db.close();
+          console.log('Connection Ended.');
+          //checking for errors
+		  console.log(nodeJSServerResponse);
+		  res.send(nodeJSServerResponse);
+        });
+        }
+      });
+     });
+   
+ //END function to getOrderLineDetails
    
    
    
