@@ -1,0 +1,6 @@
+{
+	"_id" : ObjectId("592db215d92db10e6c78cbe3"),
+	"HotelName" : "Tansen",
+	"Password" : "password",
+	"UserName" : "Admin!1"
+},

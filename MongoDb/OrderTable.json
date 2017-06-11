@@ -1,0 +1,24 @@
+{
+	"_id" : ObjectId("592b304610045517b49ef2ae"),
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"Name" : "1",
+	"Status" : "Vacant"
+},
+{
+	"_id" : ObjectId("59370aa8c3f8791f5c020303"),
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"Name" : "2",
+	"Status" : "Occupied"
+},
+{
+	"_id" : ObjectId("59370aafc3f8791f5c020304"),
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"Name" : "3",
+	"Status" : "Vacant"
+},
+{
+	"_id" : ObjectId("59370ab8c3f8791f5c020305"),
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"Name" : "4",
+	"Status" : "Vacant"
+},

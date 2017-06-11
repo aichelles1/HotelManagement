@@ -1,0 +1,44 @@
+{
+	"_id" : ObjectId("592b245f10045517b49ef2a5"),
+	"Amount" : "140.00",
+	"Category" : "",
+	"Description" : "Diced potatoes and brinjal stuffed with spices in curry",
+	"Hotel" : "592db215d92db10e6c78cbe3",
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"MenuItemImageURL" : "",
+	"Name" : "Aloo baingan masala",
+	"Type" : "Veg"
+},
+{
+	"_id" : ObjectId("592b24b410045517b49ef2a6"),
+	"Amount" : "160.00",
+	"Category" : "",
+	"Description" : "Potatoes and peas in curry",
+	"Hotel" : "592db215d92db10e6c78cbe3",
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"MenuItemImageURL" : "",
+	"Name" : "Aloo matar",
+	"Type" : "Veg"
+},
+{
+	"_id" : ObjectId("592b24e710045517b49ef2a7"),
+	"Amount" : "160.00",
+	"Category" : "",
+	"Description" : "Green capsicum with potatoes sauted with cumin seeds, onions, tomatoes, ginger-garlic paste, turmeric, red chilli powder and garam masala",
+	"Hotel" : "592db215d92db10e6c78cbe3",
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"MenuItemImageURL" : "",
+	"Name" : "Aloo shimla mirch",
+	"Type" : "Veg"
+},
+{
+	"_id" : ObjectId("592b252510045517b49ef2a8"),
+	"Amount" : "200.00",
+	"Category" : "",
+	"Description" : "Also known as murgh mahal",
+	"Hotel" : "592db215d92db10e6c78cbe3",
+	"HotelID" : "592db215d92db10e6c78cbe3",
+	"MenuItemImageURL" : "",
+	"Name" : "Butter chicken",
+	"Type" : "Non-Veg"
+},
