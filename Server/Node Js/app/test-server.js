@@ -15,6 +15,19 @@ var getOrderLineDetails = require('./postServices/getOrderLineDetails');
 var postUpsertOrder = require('./postServices/postUpsertOrder');
 var postUpsertOrderLineItem = require('./postServices/postUpsertOrderLineItem');
 var postUpdateHotelTable = require('./postServices/postUpdateHotelTable');
+var getToBeCookedMenuItems = require('./postServices/getToBeCookedMenuItems');
+var getOrderAlongWithOrderLines = require('./postServices/getOrderAlongWithOrderLines');
+var postCreateOrderAlongWithLines = require('./postServices/postCreateOrderAlongWithLines');
+var postHandleMenuItems = require('./postServices/postHandleMenuItems');
+var postTableDetails = require('./postServices/postTableDetails');
+var postOrderAlongWithOrderLines = require('./postServices/postOrderAlongWithOrderLines');
+var postMenuItemDetails = require('./postServices/postMenuItemDetails');
+var postOrderLineDetails = require('./postServices/postOrderLineDetails');
+var postOrderDetails = require('./postServices/postOrderDetails');
+
+
+
+
 //Variables
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -124,6 +137,78 @@ app.post('/postUpdateHotelTable', function(req, res, next) {
 
 //END function to postUpdateHotelTable
 
+//START function to getToBeCookedMenuItems
+
+app.post('/getToBeCookedMenuItems', function(req, res, next) {
+    getToBeCookedMenuItems(req, res, next);
+});
+
+//END function to getToBeCookedMenuItems
+
+//START function to getOrderAlongWithOrderLines
+
+app.post('/getOrderAlongWithOrderLines', function(req, res, next) {
+    getOrderAlongWithOrderLines(req, res, next);
+});
+
+//END function to getOrderAlongWithOrderLines
+
+
+//START function to postCreateOrderAlongWithLines
+
+app.post('/postHandleMenuItems', function(req, res, next) {
+    postHandleMenuItems(req, res, next);
+});
+
+//END function to postCreateOrderAlongWithLines
+
+//START function to postCreateOrderAlongWithLines
+
+app.post('/postCreateOrderAlongWithLines', function(req, res, next) {
+    postCreateOrderAlongWithLines(req, res, next);
+});
+
+//END function to postCreateOrderAlongWithLines
+
+//START function to postTableDetails
+
+app.post('/postTableDetails', function(req, res, next) {
+    postTableDetails(req, res, next);
+});
+
+//END function to postTableDetails
+
+//START function to postOrderAlongWithOrderLines
+
+app.post('/postOrderAlongWithOrderLines', function(req, res, next) {
+    postOrderAlongWithOrderLines(req, res, next);
+});
+
+//END function to postOrderAlongWithOrderLines
+
+//START function to postMenuItemDetails
+
+app.post('/postMenuItemDetails', function(req, res, next) {
+    postMenuItemDetails(req, res, next);
+});
+
+//END function to postMenuItemDetails
+
+//START function to postOrderLineDetails
+
+app.post('/postOrderLineDetails', function(req, res, next) {
+    postOrderLineDetails(req, res, next);
+});
+
+//END function to postOrderLineDetails
+
+//START function to postOrderDetails
+
+app.post('/postOrderDetails', function(req, res, next) {
+    postOrderDetails(req, res, next);
+});
+
+//END function to postOrderDetails
 
 
 var server = app.listen(3000, function() {
